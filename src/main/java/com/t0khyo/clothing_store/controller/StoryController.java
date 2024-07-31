@@ -1,8 +1,8 @@
 package com.t0khyo.clothing_store.controller;
 
-import com.t0khyo.clothing_store.util.SliderAssembler;
-import com.t0khyo.clothing_store.model.dto.SliderResponse;
-import com.t0khyo.clothing_store.service.SliderService;
+import com.t0khyo.clothing_store.util.StoryAssembler;
+import com.t0khyo.clothing_store.model.dto.StoryResponse;
+import com.t0khyo.clothing_store.service.StoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.hateoas.CollectionModel;
@@ -18,30 +18,29 @@ import java.nio.file.Paths;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/sliders")
+@RequestMapping("/api/v1/story")
 @RestController
-public class SliderController {
-    private final SliderService sliderService;
-    private final SliderAssembler sliderAssembler;
-
+public class StoryController {
+    private final StoryService storyService;
+    private final StoryAssembler storyAssembler;
     @PostMapping("/upload")
-    public ResponseEntity<EntityModel<SliderResponse>> upload(
+    public ResponseEntity<EntityModel<StoryResponse>> upload(
             @RequestParam(value="file") MultipartFile file,
             @RequestParam(value="title", required=false) String title) throws IOException {
 
-        SliderResponse savedSlider = sliderService.save(file, title);
+        StoryResponse savedStory = storyService.save(file, title);
 
-        return ResponseEntity.ok(sliderAssembler.toModel(savedSlider));
+        return ResponseEntity.ok(storyAssembler.toModel(savedStory));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EntityModel<SliderResponse>> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(sliderAssembler.toModel(sliderService.getById(id)));
+    public ResponseEntity<EntityModel<StoryResponse>> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(storyAssembler.toModel(storyService.getById(id)));
     }
 
     @GetMapping("/{id}/image")
     public ResponseEntity<Resource> getImageById(@PathVariable Long id) throws IOException {
-        Resource image = sliderService.getImageById(id);
+        Resource image = storyService.getImageById(id);
 
         if (image == null || !image.exists()) {
             return ResponseEntity.notFound().build();
@@ -55,14 +54,14 @@ public class SliderController {
     }
 
     @GetMapping("")
-    public ResponseEntity<CollectionModel<EntityModel<SliderResponse>>> getAll() {
-        List<SliderResponse> sliders = sliderService.getAll();
-        return ResponseEntity.ok(sliderAssembler.toCollectionModel(sliders));
+    public ResponseEntity<CollectionModel<EntityModel<StoryResponse>>> getAll() {
+        List<StoryResponse> stories = storyService.getAll();
+        return ResponseEntity.ok(storyAssembler.toCollectionModel(stories));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteById(@PathVariable Long id) throws IOException {
-        sliderService.deleteById(id);
-        return ResponseEntity.ok("Slider deleted successfully!");
+        storyService.deleteById(id);
+        return ResponseEntity.ok("Story deleted successfully!");
     }
 }

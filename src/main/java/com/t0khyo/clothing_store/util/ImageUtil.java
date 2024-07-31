@@ -1,6 +1,5 @@
-package com.t0khyo.clothing_store.service.impl;
+package com.t0khyo.clothing_store.util;
 
-import com.t0khyo.clothing_store.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +17,7 @@ import java.nio.file.StandardCopyOption;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class ImageServiceImpl implements ImageService {
+public class ImageUtil {
     private final ResourceLoader resourceLoader;
     @Value("${sliders.dir}")
     private String sliderDir;
@@ -41,17 +40,14 @@ public class ImageServiceImpl implements ImageService {
         }
     }
 
-    @Override
     public String saveSliderImage(MultipartFile image) throws IOException {
         return store(image, sliderDir);
     }
 
-    @Override
     public String saveStoryImage(MultipartFile image) throws IOException {
         return store(image, storyDir);
     }
 
-    @Override
     public Resource loadImage(String imagePath) throws IOException {
         try {
             Path path = Paths.get(imagePath);
@@ -67,7 +63,6 @@ public class ImageServiceImpl implements ImageService {
         }
     }
 
-    @Override
     public void deleteImage(String imagePath) throws IOException {
         try {
             Path path = Paths.get(imagePath);
