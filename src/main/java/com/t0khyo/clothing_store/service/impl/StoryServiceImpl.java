@@ -1,9 +1,7 @@
 package com.t0khyo.clothing_store.service.impl;
 
 import com.t0khyo.clothing_store.mapper.ImageMapper;
-import com.t0khyo.clothing_store.model.dto.SliderResponse;
 import com.t0khyo.clothing_store.model.dto.StoryResponse;
-import com.t0khyo.clothing_store.model.entity.Slider;
 import com.t0khyo.clothing_store.model.entity.Story;
 import com.t0khyo.clothing_store.repository.StoryRepository;
 import com.t0khyo.clothing_store.service.StoryService;
@@ -16,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -50,6 +49,15 @@ public class StoryServiceImpl implements StoryService {
     @Override
     public List<StoryResponse> getAll() {
         return storyRepository.findAll().stream().map(imageMapper::toDto).toList();
+    }
+
+    @Override
+    public List<StoryResponse> getAllTodayStories() {
+        // returns the stories created till now in the last 24 Hours.
+        LocalDateTime toTime = LocalDateTime.now();
+        LocalDateTime fromTime = toTime.minusDays(1);
+
+        return storyRepository.findAllByCreationDateTimeBetween(fromTime, toTime).stream().map(imageMapper::toDto).toList();
     }
 
     @Override

@@ -15,6 +15,8 @@ public interface StoryService {
 
     List<StoryResponse> getAll();
 
+    List<StoryResponse> getAllTodayStories();
+
     void deleteById(Long id) throws IOException;
 
     Resource getImageById(Long id) throws IOException;

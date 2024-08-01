@@ -19,7 +19,7 @@ public class StoryAssembler implements RepresentationModelAssembler<StoryRespons
     public EntityModel<StoryResponse> toModel(StoryResponse storyResponse) {
         return EntityModel.of(storyResponse,
                 linkTo(methodOn(StoryController.class).getImageById(storyResponse.id())).withSelfRel(),
-                linkTo(methodOn(StoryController.class).getAll()).withRel("stories")
+                linkTo(methodOn(StoryController.class).getTodayStories()).withRel("stories")
         );
     }
 }

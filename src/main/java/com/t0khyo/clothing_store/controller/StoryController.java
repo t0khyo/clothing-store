@@ -1,8 +1,8 @@
 package com.t0khyo.clothing_store.controller;
 
-import com.t0khyo.clothing_store.util.StoryAssembler;
 import com.t0khyo.clothing_store.model.dto.StoryResponse;
 import com.t0khyo.clothing_store.service.StoryService;
+import com.t0khyo.clothing_store.util.StoryAssembler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.hateoas.CollectionModel;
@@ -23,6 +23,7 @@ import java.util.List;
 public class StoryController {
     private final StoryService storyService;
     private final StoryAssembler storyAssembler;
+
     @PostMapping("/upload")
     public ResponseEntity<EntityModel<StoryResponse>> upload(
             @RequestParam(value="file") MultipartFile file,
@@ -54,6 +55,12 @@ public class StoryController {
     }
 
     @GetMapping("")
+    public ResponseEntity<CollectionModel<EntityModel<StoryResponse>>> getTodayStories() {
+        List<StoryResponse> stories = storyService.getAllTodayStories();
+        return ResponseEntity.ok(storyAssembler.toCollectionModel(stories));
+    }
+
+    @GetMapping("/archive")
     public ResponseEntity<CollectionModel<EntityModel<StoryResponse>>> getAll() {
         List<StoryResponse> stories = storyService.getAll();
         return ResponseEntity.ok(storyAssembler.toCollectionModel(stories));

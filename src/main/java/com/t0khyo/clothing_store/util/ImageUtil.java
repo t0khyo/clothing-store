@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -30,7 +31,14 @@ public class ImageUtil {
             if (!Files.exists(path)) {
                 Files.createDirectories(path);
             }
-            String filename = image.getOriginalFilename();
+            String originalFilename = image.getOriginalFilename();
+            String extension = "";
+
+            if (originalFilename != null && originalFilename.contains(".")) {
+                extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+            }
+
+            String filename = UUID.randomUUID().toString() + extension;
             Path filePath = path.resolve(filename);
             Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
             return filePath.toString();
