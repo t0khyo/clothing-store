@@ -55,6 +55,9 @@ public class ImageUtil {
     public String saveStoryImage(MultipartFile image) throws IOException {
         return store(image, storyDir);
     }
+    public String saveImage(MultipartFile image, String dir) throws IOException {
+        return store(image, dir);
+    }
 
     public Resource loadImage(String imagePath) throws IOException {
         try {

@@ -41,7 +41,7 @@ public class SliderServiceImpl implements SliderService {
     @Override
     public SliderResponse getById(Long id) {
         Slider slider = sliderRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Story With id: " + id + " not found."));
+                () -> new EntityNotFoundException("Slider With id: " + id + " not found."));
         return imageMapper.toDto(slider);
     }
 
@@ -53,7 +53,7 @@ public class SliderServiceImpl implements SliderService {
     @Override
     public void deleteById(Long id) throws IOException {
         Slider slider = sliderRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Story With id: " + id + " not found."));
+                () -> new EntityNotFoundException("Slider With id: " + id + " not found."));
 
         imageUtil.deleteImage(slider.getImagePath());
         sliderRepository.delete(slider);
@@ -62,7 +62,7 @@ public class SliderServiceImpl implements SliderService {
     @Override
     public Resource getImageById(Long id) throws IOException {
         Slider slider = sliderRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Story With id: " + id + " not found."));
+                () -> new EntityNotFoundException("Slider With id: " + id + " not found."));
 
         log.info("getImageById(): loading image with path: {}", slider.getImagePath());
 

@@ -26,7 +26,7 @@ public class StoryServiceImpl implements StoryService {
     private final ImageMapper imageMapper;
 
     @Override
-    public  StoryResponse save(MultipartFile image, String title) throws IOException {
+    public StoryResponse save(MultipartFile image, String title) throws IOException {
         String imagePath = imageUtil.saveStoryImage(image);
 
         Story story = Story.builder()

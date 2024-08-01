@@ -39,3 +39,9 @@ sliders.dir: src/main/resources/static/images/sliders/
 # noinspection undefined
 story.dir: src/main/resources/static/images/story/
 
+# noinspection undefined
+highlight.dir: src/main/resources/static/images/highlight/
+
+# noinspection undefined
+categorical-sliders.dir: src/main/resources/static/images/categorical-sliders/
+

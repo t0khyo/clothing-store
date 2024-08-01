@@ -5,10 +5,9 @@ import lombok.Builder;
 import java.time.LocalDateTime;
 
 @Builder
-public record StoryResponse(
+public record HighlightResponse(
         Long id,
         String title,
         LocalDateTime creationDateTime
 ) {
-
 }
