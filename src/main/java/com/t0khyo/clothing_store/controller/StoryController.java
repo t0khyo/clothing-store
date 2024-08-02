@@ -7,10 +7,10 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 //@SuperBuilder
@@ -22,6 +22,17 @@ public class StoryController extends ImageController<StoryResponse, Long> {
     public StoryController(ImageService<StoryResponse, Long> imageService, RepresentationModelAssembler<StoryResponse, EntityModel<StoryResponse>> assembler, StoryService storyService) {
         super(imageService, assembler);
         this.storyService = storyService;
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<EntityModel<StoryResponse>> upload(
+            @RequestParam(value="file") MultipartFile file,
+            @RequestParam(value="title", required=false, defaultValue="NONE") String title
+    ) throws IOException {
+
+        StoryResponse savedImage = imageService.save(file, title);
+
+        return ResponseEntity.ok(assembler.toModel(savedImage));
     }
 
     @GetMapping("")

@@ -22,16 +22,16 @@ public abstract class ImageController<T, ID> {
     protected final ImageService<T, ID> imageService;
     protected final RepresentationModelAssembler<T, EntityModel<T>> assembler;
 
-    @PostMapping("/upload")
-    public ResponseEntity<EntityModel<T>> upload(
-            @RequestParam(value="file") MultipartFile file,
-            @RequestParam(value="title", required=false, defaultValue="NONE") String title
-    ) throws IOException {
-
-        T savedImage = imageService.save(file, title);
-
-        return ResponseEntity.ok(assembler.toModel(savedImage));
-    }
+//    @PostMapping("/upload")
+//    public ResponseEntity<EntityModel<T>> upload(
+//            @RequestParam(value="file") MultipartFile file,
+//            @RequestParam(value="title", required=false, defaultValue="NONE") String title
+//    ) throws IOException {
+//
+//        T savedImage = imageService.save(file, title);
+//
+//        return ResponseEntity.ok(assembler.toModel(savedImage));
+//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<EntityModel<T>> getById(@PathVariable ID id) {

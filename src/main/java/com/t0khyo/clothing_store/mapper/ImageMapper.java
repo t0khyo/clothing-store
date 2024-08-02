@@ -45,6 +45,7 @@ public interface ImageMapper {
                 .id(categoricalSlider.getId())
                 .title(categoricalSlider.getTitle())
                 .creationDateTime(categoricalSlider.getCreationDateTime())
+                .category(categoricalSlider.getCategory())
                 .build();
     }
 }

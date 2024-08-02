@@ -43,5 +43,11 @@ story.dir: src/main/resources/static/images/story/
 highlight.dir: src/main/resources/static/images/highlight/
 
 # noinspection undefined
-categorical-sliders.dir: src/main/resources/static/images/categorical-sliders/
+sliders.men.dir: src/main/resources/static/images/sliders/men
+# noinspection undefined
+sliders.women.dir: src/main/resources/static/images/sliders/women
+# noinspection undefined
+sliders.kids.dir: src/main/resources/static/images/sliders/kids
+# noinspection undefined
+sliders.general.dir: src/main/resources/static/images/sliders/general
 

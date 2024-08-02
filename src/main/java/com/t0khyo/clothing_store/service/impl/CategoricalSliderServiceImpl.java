@@ -3,6 +3,7 @@ package com.t0khyo.clothing_store.service.impl;
 import com.t0khyo.clothing_store.mapper.ImageMapper;
 import com.t0khyo.clothing_store.model.dto.CategoricalSliderResponse;
 import com.t0khyo.clothing_store.model.entity.CategoricalSlider;
+import com.t0khyo.clothing_store.model.enums.Category;
 import com.t0khyo.clothing_store.repository.CategoricalSliderRepository;
 import com.t0khyo.clothing_store.service.CategoricalSliderService;
 import com.t0khyo.clothing_store.util.ImageUtil;
@@ -24,21 +25,40 @@ public class CategoricalSliderServiceImpl implements CategoricalSliderService {
     private final ImageUtil imageUtil;
     private final CategoricalSliderRepository categoricalSliderRepository;
     private final ImageMapper imageMapper;
-    @Value("${categorical-sliders.dir}")
-    private String categoricalSliderDir;
+    @Value("${sliders.general.dir}")
+    private String generalSliderDir;
+    @Value("${sliders.men.dir}")
+    private String menSliderDir;
+    @Value("${sliders.women.dir}")
+    private String womenSliderDir;
+    @Value("${sliders.kids.dir}")
+    private String kidsSliderDir;
 
     @Override
-    public CategoricalSliderResponse save(MultipartFile image, String title) throws IOException {
-        String imagePath = imageUtil.saveImage(image, categoricalSliderDir);
+    public CategoricalSliderResponse save(MultipartFile image, String title, Category category) throws IOException {
+        String dir = switch (category) {
+            case MEN -> menSliderDir;
+            case WOMEN -> womenSliderDir;
+            case KIDS -> kidsSliderDir;
+            case GENERAL -> generalSliderDir;
+        };
+
+        String imagePath = imageUtil.saveImage(image, dir);
 
         CategoricalSlider categoricalSlider = CategoricalSlider.builder()
                 .title(title)
                 .imagePath(imagePath)
+                .category(category)
                 .build();
 
         CategoricalSlider savedCategoricalSlider = categoricalSliderRepository.save(categoricalSlider);
 
         return imageMapper.toDto(savedCategoricalSlider);
+    }
+
+    @Override
+    public CategoricalSliderResponse save(MultipartFile file, String title) throws IOException {
+        return null;
     }
 
     @Override
@@ -70,5 +90,10 @@ public class CategoricalSliderServiceImpl implements CategoricalSliderService {
         log.info("getImageById(): loading image with path: {}", categoricalSlider.getImagePath());
 
         return imageUtil.loadImage(categoricalSlider.getImagePath());
+    }
+
+    @Override
+    public List<CategoricalSliderResponse> getAllByCategory(Category category) {
+        return categoricalSliderRepository.findAllByCategory(category).stream().map(imageMapper::toDto).toList();
     }
 }

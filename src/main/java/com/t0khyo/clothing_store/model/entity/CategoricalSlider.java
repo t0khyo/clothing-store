@@ -1,5 +1,6 @@
 package com.t0khyo.clothing_store.model.entity;
 
+import com.t0khyo.clothing_store.model.enums.Category;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,6 +26,8 @@ public class CategoricalSlider {
     private String title;
 
     private String imagePath;
+
+    private Category category;
 
     @CreationTimestamp
     private LocalDateTime creationDateTime;
