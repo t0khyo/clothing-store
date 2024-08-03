@@ -3,6 +3,8 @@ package com.t0khyo.clothing_store.service.impl;
 import com.t0khyo.clothing_store.mapper.ImageMapper;
 import com.t0khyo.clothing_store.model.dto.HighlightResponse;
 import com.t0khyo.clothing_store.model.entity.Highlight;
+import com.t0khyo.clothing_store.model.enums.Category;
+import com.t0khyo.clothing_store.model.enums.ContentType;
 import com.t0khyo.clothing_store.repository.HighlightRepository;
 import com.t0khyo.clothing_store.service.HighlightService;
 import com.t0khyo.clothing_store.util.ImageUtil;
@@ -27,18 +29,24 @@ public class HighlightServiceImpl implements HighlightService {
     @Value("${highlight.dir}")
     private String highlightDir;
 
-    @Override
-    public HighlightResponse save(MultipartFile image, String title) throws IOException {
+    public HighlightResponse save(MultipartFile image, String title, ContentType contentType, Category category) throws IOException {
         String imagePath = imageUtil.saveImage(image, highlightDir);
 
         Highlight highlight = Highlight.builder()
                 .title(title)
                 .imagePath(imagePath)
+                .category(category)
+                .content(contentType)
                 .build();
 
         Highlight savedHighlight = highlightRepository.save(highlight);
 
         return imageMapper.toDto(savedHighlight);
+    }
+
+    @Override
+    public List<HighlightResponse> getAllByCategory(Category category) {
+        return highlightRepository.findAllByCategory(category).stream().map(imageMapper::toDto).toList();
     }
 
     @Override

@@ -3,6 +3,8 @@ package com.t0khyo.clothing_store.service.impl;
 import com.t0khyo.clothing_store.mapper.ImageMapper;
 import com.t0khyo.clothing_store.model.dto.StoryResponse;
 import com.t0khyo.clothing_store.model.entity.Story;
+import com.t0khyo.clothing_store.model.enums.Category;
+import com.t0khyo.clothing_store.model.enums.ContentType;
 import com.t0khyo.clothing_store.repository.StoryRepository;
 import com.t0khyo.clothing_store.service.StoryService;
 import com.t0khyo.clothing_store.util.ImageUtil;
@@ -26,12 +28,14 @@ public class StoryServiceImpl implements StoryService {
     private final ImageMapper imageMapper;
 
     @Override
-    public StoryResponse save(MultipartFile image, String title) throws IOException {
+    public StoryResponse save(MultipartFile image, String title, ContentType contentType, Category category) throws IOException {
         String imagePath = imageUtil.saveStoryImage(image);
 
         Story story = Story.builder()
                 .title(title)
                 .imagePath(imagePath)
+                .category(category)
+                .content(contentType)
                 .build();
 
         Story savedStory = storyRepository.save(story);
@@ -58,6 +62,11 @@ public class StoryServiceImpl implements StoryService {
         LocalDateTime fromTime = toTime.minusDays(1);
 
         return storyRepository.findAllByCreationDateTimeBetween(fromTime, toTime).stream().map(imageMapper::toDto).toList();
+    }
+
+    @Override
+    public List<StoryResponse> getAllByCategory(Category category) {
+        return storyRepository.findAllByCategory(category).stream().map(imageMapper::toDto).toList();
     }
 
     @Override

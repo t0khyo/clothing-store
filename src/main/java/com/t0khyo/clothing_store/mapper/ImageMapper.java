@@ -28,6 +28,8 @@ public interface ImageMapper {
         return StoryResponse.builder()
                 .id(story.getId())
                 .title(story.getTitle())
+                .content(story.getContent())
+                .category(story.getCategory())
                 .creationDateTime(story.getCreationDateTime())
                 .build();
     }
@@ -36,6 +38,8 @@ public interface ImageMapper {
         return HighlightResponse.builder()
                 .id(highlight.getId())
                 .title(highlight.getTitle())
+                .content(highlight.getContent())
+                .category(highlight.getCategory())
                 .creationDateTime(highlight.getCreationDateTime())
                 .build();
     }

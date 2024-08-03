@@ -56,7 +56,6 @@ public class CategoricalSliderServiceImpl implements CategoricalSliderService {
         return imageMapper.toDto(savedCategoricalSlider);
     }
 
-    @Override
     public CategoricalSliderResponse save(MultipartFile file, String title) throws IOException {
         return null;
     }

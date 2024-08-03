@@ -1,5 +1,7 @@
 package com.t0khyo.clothing_store.model.entity;
 
+import com.t0khyo.clothing_store.model.enums.Category;
+import com.t0khyo.clothing_store.model.enums.ContentType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,6 +27,10 @@ public class Story {
     private String title;
 
     private String imagePath;
+
+    private ContentType content;
+
+    private Category category;
 
     @CreationTimestamp
     private LocalDateTime creationDateTime;

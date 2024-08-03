@@ -1,7 +1,6 @@
 package com.t0khyo.clothing_store.util;
 
 import com.t0khyo.clothing_store.controller.HighlightController;
-import com.t0khyo.clothing_store.controller.SliderController;
 import com.t0khyo.clothing_store.model.dto.HighlightResponse;
 import lombok.SneakyThrows;
 import org.springframework.hateoas.EntityModel;

@@ -1,9 +1,7 @@
 package com.t0khyo.clothing_store.util;
 
 import com.t0khyo.clothing_store.controller.CategoricalSliderController;
-import com.t0khyo.clothing_store.controller.SliderController;
 import com.t0khyo.clothing_store.model.dto.CategoricalSliderResponse;
-import com.t0khyo.clothing_store.model.dto.SliderResponse;
 import lombok.SneakyThrows;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;

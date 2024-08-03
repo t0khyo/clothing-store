@@ -18,13 +18,12 @@ import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
-@Service
+//@Service
 public class SliderServiceImpl implements SliderService {
     private final ImageUtil imageUtil;
     private final SliderRepository sliderRepository;
     private final ImageMapper imageMapper;
 
-    @Override
     public SliderResponse save(MultipartFile image, String title) throws IOException {
         String imagePath = imageUtil.saveSliderImage(image);
 

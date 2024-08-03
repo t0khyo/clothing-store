@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface ImageService<T, ID> {
-    T save(MultipartFile file, String title) throws IOException;
+//    T save(MultipartFile file, String title) throws IOException;
 
     T getById(ID id);
 
