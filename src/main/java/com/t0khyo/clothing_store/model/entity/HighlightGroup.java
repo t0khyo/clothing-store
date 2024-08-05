@@ -1,7 +1,6 @@
 package com.t0khyo.clothing_store.model.entity;
 
 import com.t0khyo.clothing_store.model.enums.Category;
-import com.t0khyo.clothing_store.model.enums.ContentType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,29 +9,25 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Highlight {
+public class HighlightGroup {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
     private String title;
 
-    private String imagePath;
-
-    private ContentType content;
-
     private Category category;
 
-    @ManyToOne
-    private HighlightGroup highlightGroup;
+    @OneToMany(fetch=FetchType.EAGER)
+    private List<Highlight> highlights;
 
     @CreationTimestamp
     private LocalDateTime creationDateTime;
 }
-

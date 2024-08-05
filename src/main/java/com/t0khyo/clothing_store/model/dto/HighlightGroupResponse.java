@@ -1,21 +1,17 @@
 package com.t0khyo.clothing_store.model.dto;
 
 import com.t0khyo.clothing_store.model.enums.Category;
-import com.t0khyo.clothing_store.model.enums.ContentType;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder
-public record HighlightResponse(
+public record HighlightGroupResponse(
         Long id,
         String title,
-
-        ContentType content,
-
         Category category,
-        Long highlightGroupId,
-
+        List<HighlightResponse> highlights,
         LocalDateTime creationDateTime
 ) {
 }

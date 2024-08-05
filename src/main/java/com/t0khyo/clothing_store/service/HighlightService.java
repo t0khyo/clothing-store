@@ -1,7 +1,9 @@
 package com.t0khyo.clothing_store.service;
 
+import com.t0khyo.clothing_store.model.dto.HighlightGroupResponse;
 import com.t0khyo.clothing_store.model.dto.HighlightResponse;
 import com.t0khyo.clothing_store.model.dto.StoryResponse;
+import com.t0khyo.clothing_store.model.entity.HighlightGroup;
 import com.t0khyo.clothing_store.model.enums.Category;
 import com.t0khyo.clothing_store.model.enums.ContentType;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,4 +15,14 @@ public interface HighlightService extends ImageService<HighlightResponse, Long> 
     HighlightResponse save(MultipartFile file, String title, ContentType contentType, Category category) throws IOException;
 
     List<HighlightResponse> getAllByCategory(Category category);
+
+    HighlightGroupResponse saveHighlightGroup(String name, Category category);
+
+    HighlightGroupResponse getHighlightGroupById(Long id);
+
+    List<HighlightGroupResponse> getAllHighlightGroups();
+
+    void deleteHighlightGroupById(Long id);
+
+    void addHighlightToHighlightGroupById(Long id, Long highlightId);
 }

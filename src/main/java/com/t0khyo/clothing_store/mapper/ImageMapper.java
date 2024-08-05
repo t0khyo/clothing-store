@@ -1,15 +1,11 @@
 package com.t0khyo.clothing_store.mapper;
 
-import com.t0khyo.clothing_store.model.dto.CategoricalSliderResponse;
-import com.t0khyo.clothing_store.model.dto.HighlightResponse;
-import com.t0khyo.clothing_store.model.dto.SliderResponse;
-import com.t0khyo.clothing_store.model.dto.StoryResponse;
-import com.t0khyo.clothing_store.model.entity.CategoricalSlider;
-import com.t0khyo.clothing_store.model.entity.Highlight;
-import com.t0khyo.clothing_store.model.entity.Slider;
-import com.t0khyo.clothing_store.model.entity.Story;
+import com.t0khyo.clothing_store.model.dto.*;
+import com.t0khyo.clothing_store.model.entity.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+
+import java.util.ArrayList;
 
 @Mapper(componentModel="spring")
 public interface ImageMapper {
@@ -52,4 +48,19 @@ public interface ImageMapper {
                 .category(categoricalSlider.getCategory())
                 .build();
     }
+
+    default HighlightGroupResponse toDto(HighlightGroup highlightGroup) {
+        return HighlightGroupResponse.builder()
+                .id(highlightGroup.getId())
+                .title(highlightGroup.getTitle())
+                .creationDateTime(highlightGroup.getCreationDateTime())
+                .category(highlightGroup.getCategory())
+                .highlights(
+                        highlightGroup.getHighlights() == null
+                                ? new ArrayList<>()
+                                : highlightGroup.getHighlights().stream().map(this::toDto).toList()
+                )
+                .build();
+    }
+
 }
