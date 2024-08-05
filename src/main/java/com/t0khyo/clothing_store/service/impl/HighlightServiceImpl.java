@@ -79,24 +79,26 @@ public class HighlightServiceImpl implements HighlightService {
     }
 
     @Override
-    public void deleteHighlightGroupById(Long id) {
+    public String deleteHighlightGroupById(Long id) {
         HighlightGroup group = highlightGroupRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("HighlightGroup with id: " + id + " not found.")
         );
         highlightGroupRepository.delete(group);
+
+        return "HighlightGroup deleted successfully";
     }
 
     @Override
     @Transactional
-    public void addHighlightToHighlightGroupById(Long groupId, Long highlightId) {
+    public HighlightGroupResponse addHighlightToHighlightGroupById(Long groupId, Long highlightId) {
         HighlightGroup group = highlightGroupRepository.findById(groupId).orElseThrow(
                 () -> new EntityNotFoundException("HighlightGroup with id: " + groupId + " not found.")
         );
         Highlight highlight = highlightRepository.findById(highlightId).orElseThrow(
                 () -> new EntityNotFoundException("Highlight with id: " + highlightId + " not found.")
         );
-        highlight.setHighlightGroup(group);
-        highlightRepository.save(highlight);
+        group.getHighlights().add(highlight);
+        return imageMapper.toDto(group);
     }
 
     @Override

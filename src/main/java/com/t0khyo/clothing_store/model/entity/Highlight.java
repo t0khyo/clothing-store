@@ -29,7 +29,7 @@ public class Highlight {
 
     private Category category;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     private HighlightGroup highlightGroup;
 
     @CreationTimestamp

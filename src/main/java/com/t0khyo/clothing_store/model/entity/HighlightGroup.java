@@ -25,7 +25,7 @@ public class HighlightGroup {
 
     private Category category;
 
-    @OneToMany(fetch=FetchType.EAGER)
+    @OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.PERSIST})
     private List<Highlight> highlights;
 
     @CreationTimestamp

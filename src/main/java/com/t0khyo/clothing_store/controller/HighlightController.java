@@ -57,10 +57,10 @@ public class HighlightController extends ImageController<HighlightResponse, Long
 
     @PostMapping("/groups")
     public ResponseEntity<EntityModel<HighlightGroupResponse>> createHighlightGroup(
-            @RequestParam("name") String name,
+            @RequestParam String title,
             @RequestParam(required=false) Category category
     ) {
-        return ResponseEntity.ok(groupAssembler.toModel(highlightService.saveHighlightGroup(name, category)));
+        return ResponseEntity.ok(groupAssembler.toModel(highlightService.saveHighlightGroup(title, category)));
     }
 
     @GetMapping("/groups/{id}")
@@ -74,18 +74,17 @@ public class HighlightController extends ImageController<HighlightResponse, Long
     }
 
     @DeleteMapping("/groups/{id}")
-    public ResponseEntity<Void> deleteHighlightGroupById(@PathVariable Long id) {
+    public ResponseEntity<String> deleteHighlightGroupById(@PathVariable Long id) {
         highlightService.deleteHighlightGroupById(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(highlightService.deleteHighlightGroupById(id));
     }
 
     @PatchMapping("/groups/{id}")
-    public ResponseEntity<Void> addHighlightToHighlightGroupById(
+    public ResponseEntity<EntityModel<HighlightGroupResponse>> addHighlightToHighlightGroupById(
             @PathVariable Long id,
             @RequestParam Long highlightId
     ) {
-        highlightService.addHighlightToHighlightGroupById(id, highlightId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(groupAssembler.toModel(highlightService.addHighlightToHighlightGroupById(id, highlightId)));
     }
 
 }
