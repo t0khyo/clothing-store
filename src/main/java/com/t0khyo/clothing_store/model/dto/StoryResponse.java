@@ -1,6 +1,5 @@
 package com.t0khyo.clothing_store.model.dto;
 
-import com.t0khyo.clothing_store.model.enums.Category;
 import com.t0khyo.clothing_store.model.enums.ContentType;
 import lombok.Builder;
 
@@ -12,7 +11,7 @@ public record StoryResponse(
         String title,
         ContentType content,
 
-        Category category,
+        String category,
         LocalDateTime creationDateTime
 ) {
 

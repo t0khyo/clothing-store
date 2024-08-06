@@ -1,6 +1,5 @@
 package com.t0khyo.clothing_store.model.entity;
 
-import com.t0khyo.clothing_store.model.enums.Category;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +22,7 @@ public class HighlightGroup {
 
     private String title;
 
-    private Category category;
+    private String category;
 
     @OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.PERSIST})
     private List<Highlight> highlights;

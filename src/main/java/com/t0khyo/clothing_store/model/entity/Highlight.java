@@ -1,6 +1,5 @@
 package com.t0khyo.clothing_store.model.entity;
 
-import com.t0khyo.clothing_store.model.enums.Category;
 import com.t0khyo.clothing_store.model.enums.ContentType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,9 +26,9 @@ public class Highlight {
 
     private ContentType content;
 
-    private Category category;
+    private String category;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToOne
     private HighlightGroup highlightGroup;
 
     @CreationTimestamp

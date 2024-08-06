@@ -3,7 +3,6 @@ package com.t0khyo.clothing_store.service.impl;
 import com.t0khyo.clothing_store.mapper.ImageMapper;
 import com.t0khyo.clothing_store.model.dto.StoryResponse;
 import com.t0khyo.clothing_store.model.entity.Story;
-import com.t0khyo.clothing_store.model.enums.Category;
 import com.t0khyo.clothing_store.model.enums.ContentType;
 import com.t0khyo.clothing_store.repository.StoryRepository;
 import com.t0khyo.clothing_store.service.StoryService;
@@ -28,7 +27,7 @@ public class StoryServiceImpl implements StoryService {
     private final ImageMapper imageMapper;
 
     @Override
-    public StoryResponse save(MultipartFile image, String title, ContentType contentType, Category category) throws IOException {
+    public StoryResponse save(MultipartFile image, String title, ContentType contentType, String category) throws IOException {
         String imagePath = imageUtil.saveStoryImage(image);
 
         Story story = Story.builder()
@@ -65,7 +64,7 @@ public class StoryServiceImpl implements StoryService {
     }
 
     @Override
-    public List<StoryResponse> getAllByCategory(Category category) {
+    public List<StoryResponse> getAllByCategory(String category) {
         return storyRepository.findAllByCategory(category).stream().map(imageMapper::toDto).toList();
     }
 

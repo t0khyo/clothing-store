@@ -1,7 +1,6 @@
 package com.t0khyo.clothing_store.controller;
 
 import com.t0khyo.clothing_store.model.dto.StoryResponse;
-import com.t0khyo.clothing_store.model.enums.Category;
 import com.t0khyo.clothing_store.model.enums.ContentType;
 import com.t0khyo.clothing_store.service.ImageService;
 import com.t0khyo.clothing_store.service.StoryService;
@@ -29,9 +28,9 @@ public class StoryController extends ImageController<StoryResponse, Long> {
     @PostMapping("/upload")
     public ResponseEntity<EntityModel<StoryResponse>> upload(
             @RequestParam(value="file") MultipartFile file,
-            @RequestParam(value="title", required=false, defaultValue="NONE") String title,
+            @RequestParam(required=false, defaultValue="NONE") String title,
             @RequestParam ContentType contentType,
-            @RequestParam Category category
+            @RequestParam String category
     ) throws IOException {
 
         StoryResponse savedImage = storyService.save(file, title, contentType, category);
@@ -50,9 +49,10 @@ public class StoryController extends ImageController<StoryResponse, Long> {
         List<StoryResponse> stories = storyService.getAll();
         return ResponseEntity.ok(assembler.toCollectionModel(stories));
     }
+
     @GetMapping("/{category}")
     public ResponseEntity<CollectionModel<EntityModel<StoryResponse>>> getAllByCategory(
-            @PathVariable Category category
+            @PathVariable String category
     ) {
         List<StoryResponse> stories = storyService.getAllByCategory(category);
         return ResponseEntity.ok(assembler.toCollectionModel(stories));

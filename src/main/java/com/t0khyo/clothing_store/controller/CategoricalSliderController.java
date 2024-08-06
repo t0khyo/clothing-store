@@ -1,7 +1,6 @@
 package com.t0khyo.clothing_store.controller;
 
 import com.t0khyo.clothing_store.model.dto.CategoricalSliderResponse;
-import com.t0khyo.clothing_store.model.enums.Category;
 import com.t0khyo.clothing_store.service.CategoricalSliderService;
 import com.t0khyo.clothing_store.service.ImageService;
 import org.springframework.hateoas.CollectionModel;
@@ -25,16 +24,16 @@ public class CategoricalSliderController extends ImageController<CategoricalSlid
     }
 
     @GetMapping("/{category}")
-    public ResponseEntity<CollectionModel<EntityModel<CategoricalSliderResponse>>> getAll(@PathVariable Category category) {
+    public ResponseEntity<CollectionModel<EntityModel<CategoricalSliderResponse>>> getAll(@PathVariable String category) {
         List<CategoricalSliderResponse> categoricalSliders = categoricalSliderService.getAllByCategory(category);
         return ResponseEntity.ok(assembler.toCollectionModel(categoricalSliders));
     }
 
     @PostMapping("/upload")
     public ResponseEntity<EntityModel<CategoricalSliderResponse>> upload(
-            @RequestParam(value="file") MultipartFile file,
-            @RequestParam(value="title") Category category,
-            @RequestParam(value="title", required=false, defaultValue="NONE") String title
+            @RequestParam MultipartFile file,
+            @RequestParam String category,
+            @RequestParam(required=false, defaultValue="NONE") String title
 
     ) throws IOException {
 

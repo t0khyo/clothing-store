@@ -3,7 +3,6 @@ package com.t0khyo.clothing_store.controller;
 import com.t0khyo.clothing_store.mapper.ImageMapper;
 import com.t0khyo.clothing_store.model.dto.HighlightGroupResponse;
 import com.t0khyo.clothing_store.model.dto.HighlightResponse;
-import com.t0khyo.clothing_store.model.enums.Category;
 import com.t0khyo.clothing_store.model.enums.ContentType;
 import com.t0khyo.clothing_store.service.HighlightService;
 import com.t0khyo.clothing_store.service.ImageService;
@@ -38,7 +37,7 @@ public class HighlightController extends ImageController<HighlightResponse, Long
             @RequestParam(value="file") MultipartFile file,
             @RequestParam(value="title", required=false, defaultValue="NONE") String title,
             @RequestParam(value="contentType") ContentType contentType,
-            @RequestParam Category category
+            @RequestParam String category
     ) throws IOException {
 
         HighlightResponse savedImage = highlightService.save(file, title, contentType, category);
@@ -48,7 +47,7 @@ public class HighlightController extends ImageController<HighlightResponse, Long
 
     @GetMapping("/{category}")
     public ResponseEntity<CollectionModel<EntityModel<HighlightResponse>>> getAllByCategory(
-            @PathVariable Category category
+            @PathVariable String category
     ) {
         List<HighlightResponse> highlights = highlightService.getAllByCategory(category);
         return ResponseEntity.ok(assembler.toCollectionModel(highlights));
@@ -58,7 +57,7 @@ public class HighlightController extends ImageController<HighlightResponse, Long
     @PostMapping("/groups")
     public ResponseEntity<EntityModel<HighlightGroupResponse>> createHighlightGroup(
             @RequestParam String title,
-            @RequestParam(required=false) Category category
+            @RequestParam(required=false) String category
     ) {
         return ResponseEntity.ok(groupAssembler.toModel(highlightService.saveHighlightGroup(title, category)));
     }

@@ -5,7 +5,6 @@ import com.t0khyo.clothing_store.model.dto.HighlightGroupResponse;
 import com.t0khyo.clothing_store.model.dto.HighlightResponse;
 import com.t0khyo.clothing_store.model.entity.Highlight;
 import com.t0khyo.clothing_store.model.entity.HighlightGroup;
-import com.t0khyo.clothing_store.model.enums.Category;
 import com.t0khyo.clothing_store.model.enums.ContentType;
 import com.t0khyo.clothing_store.repository.HighlightGroupRepository;
 import com.t0khyo.clothing_store.repository.HighlightRepository;
@@ -34,7 +33,7 @@ public class HighlightServiceImpl implements HighlightService {
     @Value("${highlight.dir}")
     private String highlightDir;
 
-    public HighlightResponse save(MultipartFile image, String title, ContentType contentType, Category category) throws IOException {
+    public HighlightResponse save(MultipartFile image, String title, ContentType contentType, String category) throws IOException {
         String imagePath = imageUtil.saveImage(image, highlightDir);
 
         Highlight highlight = Highlight.builder()
@@ -50,12 +49,12 @@ public class HighlightServiceImpl implements HighlightService {
     }
 
     @Override
-    public List<HighlightResponse> getAllByCategory(Category category) {
+    public List<HighlightResponse> getAllByCategory(String category) {
         return highlightRepository.findAllByCategory(category).stream().map(imageMapper::toDto).toList();
     }
 
     @Override
-    public HighlightGroupResponse saveHighlightGroup(String title, Category category) {
+    public HighlightGroupResponse saveHighlightGroup(String title, String category) {
         HighlightGroup highlightGroup = HighlightGroup.builder()
                 .title(title)
                 .category(category)
@@ -91,15 +90,33 @@ public class HighlightServiceImpl implements HighlightService {
     @Override
     @Transactional
     public HighlightGroupResponse addHighlightToHighlightGroupById(Long groupId, Long highlightId) {
-        HighlightGroup group = highlightGroupRepository.findById(groupId).orElseThrow(
+        HighlightGroup highlightGroup = highlightGroupRepository.findById(groupId).orElseThrow(
                 () -> new EntityNotFoundException("HighlightGroup with id: " + groupId + " not found.")
         );
         Highlight highlight = highlightRepository.findById(highlightId).orElseThrow(
                 () -> new EntityNotFoundException("Highlight with id: " + highlightId + " not found.")
         );
-        group.getHighlights().add(highlight);
-        return imageMapper.toDto(group);
+
+        // Remove highlight from its current group if it exists
+        if (highlight.getHighlightGroup() != null) {
+            HighlightGroup currentGroup = highlight.getHighlightGroup();
+            currentGroup.getHighlights().remove(highlight);
+            highlightGroupRepository.save(currentGroup);
+        }
+
+//        // Add the highlight to the new group
+//        highlight.setHighlightGroup(newGroup);
+//        newGroup.getHighlights().add(highlight);
+//        highlightRepository.save(highlight); // Save the highlight to update its highlightGroup
+//        highlightGroupRepository.save(newGroup); // Save the group to update its highlights
+
+        List<Highlight> highlights = highlightGroup.getHighlights();
+        highlights.add(highlight); // not working
+        highlightGroup.setHighlights(highlights); // this will work
+
+        return imageMapper.toDto(highlightGroup);
     }
+
 
     @Override
     public HighlightResponse getById(Long id) {

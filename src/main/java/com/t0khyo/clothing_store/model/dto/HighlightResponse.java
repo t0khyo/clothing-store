@@ -1,6 +1,5 @@
 package com.t0khyo.clothing_store.model.dto;
 
-import com.t0khyo.clothing_store.model.enums.Category;
 import com.t0khyo.clothing_store.model.enums.ContentType;
 import lombok.Builder;
 
@@ -13,7 +12,7 @@ public record HighlightResponse(
 
         ContentType content,
 
-        Category category,
+        String category,
         Long highlightGroupId,
 
         LocalDateTime creationDateTime
