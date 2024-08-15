@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/api/v1/category")
 @RestController
 public class CategoryController {
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
 
     @GetMapping("/{id}")
     public ResponseEntity<Category> getById(Long id) {
