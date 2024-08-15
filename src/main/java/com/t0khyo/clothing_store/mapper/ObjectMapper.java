@@ -8,8 +8,8 @@ import org.mapstruct.factory.Mappers;
 import java.util.ArrayList;
 
 @Mapper(componentModel="spring")
-public interface ImageMapper {
-    ImageMapper INSTANCE = Mappers.getMapper(ImageMapper.class);
+public interface ObjectMapper {
+    ObjectMapper INSTANCE = Mappers.getMapper(ObjectMapper.class);
 
     default SliderResponse toDto(Slider slider) {
         return SliderResponse.builder()
@@ -63,4 +63,12 @@ public interface ImageMapper {
                 .build();
     }
 
+    default Category toEntity(CategoryRequest categoryRequest) {
+        return Category.builder()
+                .title(categoryRequest.title())
+                .color(categoryRequest.color())
+                .build();
+    }
+
 }
+

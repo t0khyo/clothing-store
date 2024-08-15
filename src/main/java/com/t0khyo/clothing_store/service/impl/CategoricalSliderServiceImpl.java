@@ -1,6 +1,6 @@
 package com.t0khyo.clothing_store.service.impl;
 
-import com.t0khyo.clothing_store.mapper.ImageMapper;
+import com.t0khyo.clothing_store.mapper.ObjectMapper;
 import com.t0khyo.clothing_store.model.dto.CategoricalSliderResponse;
 import com.t0khyo.clothing_store.model.entity.CategoricalSlider;
 import com.t0khyo.clothing_store.repository.CategoricalSliderRepository;
@@ -23,7 +23,7 @@ import java.util.List;
 public class CategoricalSliderServiceImpl implements CategoricalSliderService {
     private final ImageUtil imageUtil;
     private final CategoricalSliderRepository categoricalSliderRepository;
-    private final ImageMapper imageMapper;
+    private final ObjectMapper objectMapper;
     @Value("${sliders.dir}")
     private String sliderDir;
 
@@ -39,7 +39,7 @@ public class CategoricalSliderServiceImpl implements CategoricalSliderService {
 
         CategoricalSlider savedCategoricalSlider = categoricalSliderRepository.save(categoricalSlider);
 
-        return imageMapper.toDto(savedCategoricalSlider);
+        return objectMapper.toDto(savedCategoricalSlider);
     }
 
     public CategoricalSliderResponse save(MultipartFile file, String title) throws IOException {
@@ -50,12 +50,12 @@ public class CategoricalSliderServiceImpl implements CategoricalSliderService {
     public CategoricalSliderResponse getById(Long id) {
         CategoricalSlider categoricalSlider = categoricalSliderRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("CategoricalSlider With id: " + id + " not found."));
-        return imageMapper.toDto(categoricalSlider);
+        return objectMapper.toDto(categoricalSlider);
     }
 
     @Override
     public List<CategoricalSliderResponse> getAll() {
-        return categoricalSliderRepository.findAll().stream().map(imageMapper::toDto).toList();
+        return categoricalSliderRepository.findAll().stream().map(objectMapper::toDto).toList();
     }
 
     @Override
@@ -79,6 +79,6 @@ public class CategoricalSliderServiceImpl implements CategoricalSliderService {
 
     @Override
     public List<CategoricalSliderResponse> getAllByCategory(String category) {
-        return categoricalSliderRepository.findAllByCategory(category).stream().map(imageMapper::toDto).toList();
+        return categoricalSliderRepository.findAllByCategory(category).stream().map(objectMapper::toDto).toList();
     }
 }

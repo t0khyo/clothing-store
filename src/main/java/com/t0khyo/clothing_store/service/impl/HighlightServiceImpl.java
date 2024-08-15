@@ -1,6 +1,6 @@
 package com.t0khyo.clothing_store.service.impl;
 
-import com.t0khyo.clothing_store.mapper.ImageMapper;
+import com.t0khyo.clothing_store.mapper.ObjectMapper;
 import com.t0khyo.clothing_store.model.dto.HighlightGroupResponse;
 import com.t0khyo.clothing_store.model.dto.HighlightResponse;
 import com.t0khyo.clothing_store.model.entity.Highlight;
@@ -29,7 +29,7 @@ public class HighlightServiceImpl implements HighlightService {
     private final ImageUtil imageUtil;
     private final HighlightRepository highlightRepository;
     private final HighlightGroupRepository highlightGroupRepository;
-    private final ImageMapper imageMapper;
+    private final ObjectMapper objectMapper;
     @Value("${highlight.dir}")
     private String highlightDir;
 
@@ -45,12 +45,12 @@ public class HighlightServiceImpl implements HighlightService {
 
         Highlight savedHighlight = highlightRepository.save(highlight);
 
-        return imageMapper.toDto(savedHighlight);
+        return objectMapper.toDto(savedHighlight);
     }
 
     @Override
     public List<HighlightResponse> getAllByCategory(String category) {
-        return highlightRepository.findAllByCategory(category).stream().map(imageMapper::toDto).toList();
+        return highlightRepository.findAllByCategory(category).stream().map(objectMapper::toDto).toList();
     }
 
     @Override
@@ -60,7 +60,7 @@ public class HighlightServiceImpl implements HighlightService {
                 .category(category)
                 .build();
         HighlightGroup savedHighlightGroup = highlightGroupRepository.save(highlightGroup);
-        return imageMapper.toDto(savedHighlightGroup);
+        return objectMapper.toDto(savedHighlightGroup);
     }
 
     @Override
@@ -68,13 +68,13 @@ public class HighlightServiceImpl implements HighlightService {
         HighlightGroup group = highlightGroupRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("HighlightGroup with id: " + id + " not found.")
         );
-        return imageMapper.toDto(group);
+        return objectMapper.toDto(group);
     }
 
     @Override
     public List<HighlightGroupResponse> getAllHighlightGroups() {
         return highlightGroupRepository.findAll().stream()
-                .map(imageMapper::toDto).toList();
+                .map(objectMapper::toDto).toList();
     }
 
     @Override
@@ -114,7 +114,7 @@ public class HighlightServiceImpl implements HighlightService {
         highlights.add(highlight); // not working
         highlightGroup.setHighlights(highlights); // this will work
 
-        return imageMapper.toDto(highlightGroup);
+        return objectMapper.toDto(highlightGroup);
     }
 
 
@@ -122,12 +122,12 @@ public class HighlightServiceImpl implements HighlightService {
     public HighlightResponse getById(Long id) {
         Highlight highlight = highlightRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Highlight With id: " + id + " not found."));
-        return imageMapper.toDto(highlight);
+        return objectMapper.toDto(highlight);
     }
 
     @Override
     public List<HighlightResponse> getAll() {
-        return highlightRepository.findAll().stream().map(imageMapper::toDto).toList();
+        return highlightRepository.findAll().stream().map(objectMapper::toDto).toList();
     }
 
     @Override

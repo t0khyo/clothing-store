@@ -1,6 +1,6 @@
 package com.t0khyo.clothing_store.service.impl;
 
-import com.t0khyo.clothing_store.mapper.ImageMapper;
+import com.t0khyo.clothing_store.mapper.ObjectMapper;
 import com.t0khyo.clothing_store.model.dto.SliderResponse;
 import com.t0khyo.clothing_store.model.entity.Slider;
 import com.t0khyo.clothing_store.repository.SliderRepository;
@@ -10,7 +10,6 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -22,7 +21,7 @@ import java.util.List;
 public class SliderServiceImpl implements SliderService {
     private final ImageUtil imageUtil;
     private final SliderRepository sliderRepository;
-    private final ImageMapper imageMapper;
+    private final ObjectMapper objectMapper;
 
     public SliderResponse save(MultipartFile image, String title) throws IOException {
         String imagePath = imageUtil.saveSliderImage(image);
@@ -34,19 +33,19 @@ public class SliderServiceImpl implements SliderService {
 
         Slider savedSlider = sliderRepository.save(slider);
 
-        return imageMapper.toDto(savedSlider);
+        return objectMapper.toDto(savedSlider);
     }
 
     @Override
     public SliderResponse getById(Long id) {
         Slider slider = sliderRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Slider With id: " + id + " not found."));
-        return imageMapper.toDto(slider);
+        return objectMapper.toDto(slider);
     }
 
     @Override
     public List<SliderResponse> getAll() {
-        return sliderRepository.findAll().stream().map(imageMapper::toDto).toList();
+        return sliderRepository.findAll().stream().map(objectMapper::toDto).toList();
     }
 
     @Override

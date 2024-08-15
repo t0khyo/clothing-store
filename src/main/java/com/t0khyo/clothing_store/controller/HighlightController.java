@@ -1,6 +1,6 @@
 package com.t0khyo.clothing_store.controller;
 
-import com.t0khyo.clothing_store.mapper.ImageMapper;
+import com.t0khyo.clothing_store.mapper.ObjectMapper;
 import com.t0khyo.clothing_store.model.dto.HighlightGroupResponse;
 import com.t0khyo.clothing_store.model.dto.HighlightResponse;
 import com.t0khyo.clothing_store.model.enums.ContentType;
@@ -22,14 +22,14 @@ import java.util.List;
 public class HighlightController extends ImageController<HighlightResponse, Long> {
     private final HighlightService highlightService;
     private final HighLightGroupAssembler groupAssembler;
-    private final ImageMapper imageMapper;
+    private final ObjectMapper objectMapper;
 
     public HighlightController(ImageService<HighlightResponse, Long> imageService, RepresentationModelAssembler<HighlightResponse, EntityModel<HighlightResponse>> assembler, HighlightService highlightService, HighLightGroupAssembler groupAssembler,
-                               ImageMapper imageMapper) {
+                               ObjectMapper objectMapper) {
         super(imageService, assembler);
         this.highlightService = highlightService;
         this.groupAssembler = groupAssembler;
-        this.imageMapper = imageMapper;
+        this.objectMapper = objectMapper;
     }
 
     @PostMapping("/upload")

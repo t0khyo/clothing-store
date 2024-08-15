@@ -1,6 +1,6 @@
 package com.t0khyo.clothing_store.service.impl;
 
-import com.t0khyo.clothing_store.mapper.ImageMapper;
+import com.t0khyo.clothing_store.mapper.ObjectMapper;
 import com.t0khyo.clothing_store.model.dto.StoryResponse;
 import com.t0khyo.clothing_store.model.entity.Story;
 import com.t0khyo.clothing_store.model.enums.ContentType;
@@ -24,7 +24,7 @@ import java.util.List;
 public class StoryServiceImpl implements StoryService {
     private final ImageUtil imageUtil;
     private final StoryRepository storyRepository;
-    private final ImageMapper imageMapper;
+    private final ObjectMapper objectMapper;
 
     @Override
     public StoryResponse save(MultipartFile image, String title, ContentType contentType, String category) throws IOException {
@@ -39,19 +39,19 @@ public class StoryServiceImpl implements StoryService {
 
         Story savedStory = storyRepository.save(story);
 
-        return imageMapper.toDto(savedStory);
+        return objectMapper.toDto(savedStory);
     }
 
     @Override
     public StoryResponse getById(Long id) {
         Story slider = storyRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Story With id: " + id + " not found."));
-        return imageMapper.toDto(slider);
+        return objectMapper.toDto(slider);
     }
 
     @Override
     public List<StoryResponse> getAll() {
-        return storyRepository.findAll().stream().map(imageMapper::toDto).toList();
+        return storyRepository.findAll().stream().map(objectMapper::toDto).toList();
     }
 
     @Override
@@ -60,12 +60,12 @@ public class StoryServiceImpl implements StoryService {
         LocalDateTime toTime = LocalDateTime.now();
         LocalDateTime fromTime = toTime.minusDays(1);
 
-        return storyRepository.findAllByCreationDateTimeBetween(fromTime, toTime).stream().map(imageMapper::toDto).toList();
+        return storyRepository.findAllByCreationDateTimeBetween(fromTime, toTime).stream().map(objectMapper::toDto).toList();
     }
 
     @Override
     public List<StoryResponse> getAllByCategory(String category) {
-        return storyRepository.findAllByCategory(category).stream().map(imageMapper::toDto).toList();
+        return storyRepository.findAllByCategory(category).stream().map(objectMapper::toDto).toList();
     }
 
     @Override
