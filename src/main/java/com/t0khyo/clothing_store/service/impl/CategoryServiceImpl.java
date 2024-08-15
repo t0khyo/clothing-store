@@ -7,6 +7,7 @@ import com.t0khyo.clothing_store.repository.CategoryRepository;
 import com.t0khyo.clothing_store.service.CategoryService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,6 +32,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category save(CategoryRequest categoryRequest) {
+        if (categoryRepository.findByTitle(categoryRequest.title()).isPresent()) {
+            throw new DataIntegrityViolationException("category title must be unique!, there is already a category with title: " + categoryRequest.title());
+        }
         Category category = objectMapper.toEntity(categoryRequest);
         return categoryRepository.save(category);
     }

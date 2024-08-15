@@ -3,6 +3,7 @@ package com.t0khyo.clothing_store.controller;
 import com.t0khyo.clothing_store.model.dto.CategoryRequest;
 import com.t0khyo.clothing_store.model.entity.Category;
 import com.t0khyo.clothing_store.service.CategoryService;
+import jakarta.xml.bind.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,7 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<Category> save(@RequestBody CategoryRequest categoryRequest) {
+    public ResponseEntity<Category> save(@RequestBody CategoryRequest categoryRequest){
         Category category = categoryService.save(categoryRequest);
         URI categoryURI = ServletUriComponentsBuilder
                 .fromCurrentRequest()

@@ -2,6 +2,7 @@ package com.t0khyo.clothing_store.service;
 
 import com.t0khyo.clothing_store.model.dto.CategoryRequest;
 import com.t0khyo.clothing_store.model.entity.Category;
+import jakarta.xml.bind.ValidationException;
 
 import java.util.List;
 
